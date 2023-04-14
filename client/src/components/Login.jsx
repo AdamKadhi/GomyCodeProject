@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/login.css";
 import { useDispatch } from "react-redux";
@@ -30,13 +30,14 @@ const Login = () => {
   });
   const dispatch = useDispatch();
 
+
   return (
     <div className="login-page">
       <div
         className={`container ${isSignUpActive ? "right-panel-active" : ""}`}
       >
         <div className="form-container sign-up-container">
-          <form action="#">
+          <form>
             <h1>Create Account</h1>
             <span>or use your email for registration</span>
             <input
@@ -67,14 +68,18 @@ const Login = () => {
                 setnewuser({ ...newuser, password: e.target.value })
               }
             />
-            <input
-              type="text"
-              placeholder="url for your image"
-              onChange={(e) => 
-                setnewuser({...newuser, image:e.target.value})
-              }
-            />
-            {/* <input type="password" placeholder="Confirm Password" /> */}
+<input 
+          type="file"
+          lable="Image"
+          name="myFile"
+          id='file-upload'
+          accept='.jpeg, .png, .jpg'
+          onChange={(e) =>
+            convertToBase64(e.target.files[0]).then((base64String) => {
+              setnewuser({ ...newuser, image: base64String });
+            })
+          }
+         />
             <button onClick={() => dispatch(userRegister(newuser))}>
               Sign Up
             </button>
@@ -135,3 +140,15 @@ const Login = () => {
 
 export default Login;
 
+function convertToBase64(file){
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      resolve(fileReader.result)
+    };
+    fileReader.onerror = (error) => {
+      reject(error)
+    }
+  })
+}

@@ -24,7 +24,18 @@ const Settings = ({ pdp }) => {
         <div className="settings_pdp">
           <img src={user?.image?user.image : pdp} alt="" /> 
           <span>
-          <input type="text" name="" placeholder="Image URL" id="" onChange={(e)=>setupdatedu({...updatedu,image:e.target.value})}/>
+          <input 
+          type="file"
+          lable="Image"
+          name="myFile"
+          id='file-upload'
+          accept='.jpeg, .png, .jpg'
+          onChange={(e) =>
+            convertToBase64(e.target.files[0]).then((base64String) => {
+              setupdatedu({ ...updatedu, image: base64String });
+            })
+          }
+         />
           <button>Change</button>
           </span>
         </div>
@@ -81,3 +92,15 @@ const Settings = ({ pdp }) => {
 };
 
 export default Settings;
+function convertToBase64(file){
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      resolve(fileReader.result)
+    };
+    fileReader.onerror = (error) => {
+      reject(error)
+    }
+  })
+}
