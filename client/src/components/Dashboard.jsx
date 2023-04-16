@@ -17,11 +17,9 @@ const [lien, setlien] = useState(1)
 const [joinmodal, setjoinmodal] = useState(0)
 const [search, setsearch] = useState("")
 const user=useSelector((store)=>store.user?.user)
-console.log(user)
 const dispatch = useDispatch()
 const navigate = useNavigate()
 const [teste, setteste] = useState({})
-console.log(teste)
 const handleget=(x)=>{
   setteste(x)
 }

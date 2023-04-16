@@ -18,7 +18,6 @@ const CreateLobby = ({setlien}) => {
     partpdp:"",
     code:"",
   })
-  const navigate=useNavigate()
   const handleRefresh = () => {
     window.location.reload();
   }

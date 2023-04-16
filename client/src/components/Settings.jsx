@@ -9,7 +9,6 @@ const Settings = ({ pdp }) => {
     fullname:user?.fullname,
     nickname:user?.nickname,
     email:user?.email,
-    password:"",
     image:user?.image
   })
  const [changepass, setchangepass] = useState(0)
@@ -22,6 +21,7 @@ const Settings = ({ pdp }) => {
       <h1>Settings</h1>
       <div className="settings_box">
         <div className="settings_pdp">
+          
           <img src={user?.image?user.image : pdp} alt="" /> 
           <span>
           <input 
@@ -36,7 +36,7 @@ const Settings = ({ pdp }) => {
             })
           }
          />
-          <button>Change</button>
+          <button><label htmlFor="file-upload">Change</label></button>
           </span>
         </div>
 
