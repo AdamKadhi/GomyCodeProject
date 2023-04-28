@@ -16,13 +16,15 @@ const Settings = ({ pdp }) => {
  const handleRefresh = () => {
   window.location.reload();
 }
+const [fil, setfil] = useState(user?.image)
   return (
     <div className="settings">
       <h1>Settings</h1>
       <div className="settings_box">
         <div className="settings_pdp">
           
-          <img src={user?.image?user.image : pdp} alt="" /> 
+          {/* <img src={user?.image?user.image : pdp} alt="" />  */}
+          <img src={fil} alt="" />
           <span>
           <input 
           type="file"
@@ -32,7 +34,9 @@ const Settings = ({ pdp }) => {
           accept='.jpeg, .png, .jpg'
           onChange={(e) =>
             convertToBase64(e.target.files[0]).then((base64String) => {
+              setfil(base64String);
               setupdatedu({ ...updatedu, image: base64String });
+              
             })
           }
          />

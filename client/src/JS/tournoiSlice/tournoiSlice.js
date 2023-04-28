@@ -46,22 +46,6 @@ return result
 })
 
 
-// export const updatepartie=createAsyncThunk('partie/update',async({id, partie})=>{
-//     try{
-// let result=axios.put(`http://localhost:5000/tournoi/partie/${id}`,partie)
-// return result
-//     }catch(error){
-//     console.log(error)
-//     }
-// })
-// export const updateparticipant=createAsyncThunk('participant/update',async({id, participant})=>{
-//     try{
-// let result=axios.put(`http://localhost:5000/tournoi/participant/${id}`,participant)
-// return result
-//     }catch(error){
-//     console.log(error)
-//     }
-// })
 
 
 

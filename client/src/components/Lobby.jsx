@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import coin from "../Images/coin.png";
 import { useNavigate, useParams } from "react-router-dom";
-import { deletetournoi, getbyidtournoi } from "../JS/tournoiSlice/tournoiSlice";
+import { deletetournoi, getbyidtournoi, updatetournoi } from "../JS/tournoiSlice/tournoiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import pdp from "../Images/pdp.jpg";
+import { updateuser } from "../JS/userSlice/userSlice";
 
 const Lobby = () => {
   const params = useParams();
@@ -13,9 +14,7 @@ const Lobby = () => {
   }, []);
   const tournoipartie = useSelector((state) => state.tournoi?.tournoi);
   const navigate = useNavigate();
-  const handleRefresh = () => {
-    window.location.reload();
-  };
+  
 
   const [countdown, setCountdown] = useState(10);
   const [isStarted, setIsStarted] = useState(false);
@@ -37,6 +36,9 @@ const Lobby = () => {
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
+  const handleRefresh = () => {
+    window.location.reload();
+  }
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
@@ -46,8 +48,16 @@ const Lobby = () => {
       setInputValue("");
     }
   };
+  const [deletepart, setdeletepart] = useState({
+    participant:"",
+    partpdp:"",
+  })
+  
+  const [coinsback, setcoinsback] = useState({
+    coins:0,
+  })
   return (
-    <div className="lobby">
+    <div className="lobby"  >
       <h1>My Lobby:</h1>
       <div className="lobby_cont">
         <div className="lobby_left">
@@ -56,7 +66,7 @@ const Lobby = () => {
             <div className="lobby_user1">
               <img src={tournoipartie?.owpdp} alt="" />
               <span>{tournoipartie?.owner}</span>
-              <button>I'M READY</button>
+              <button onMouseOver={()=>setcoinsback({...coinsback,coins:tournoipartie?.money+user?.coins})}>I'M READY</button>
             </div>
             <div className="lobby_betmoney">
               <span>{tournoipartie?.money}</span>
@@ -74,18 +84,35 @@ const Lobby = () => {
           ?  countdown 
           : isStarted}</span>
           </div>
-          <div className="lobby_buttons">
+          {user?.nickname==tournoipartie?.owner? <div className="lobby_buttons">
+            
             <button
               onClick={() => (
                 navigate("/dashboard"),
                 handleRefresh(),
+                dispatch(updateuser({id:user?._id,user:coinsback})),
                 dispatch(deletetournoi(tournoipartie?._id))
+                
               )}
             >
               Delete
             </button>
             <button onClick={()=>setIsStarted(true)}>Start</button>
-          </div>
+          </div> :<div className="lobby_buttons">
+            
+            <button
+              onClick={() => (
+                navigate("/dashboard"),
+                handleRefresh(),
+                dispatch(updatetournoi({id:tournoipartie?._id,tournoi:deletepart}))
+                
+              )}
+            >
+              Leave
+            </button>
+            <button>Waiting To Start</button>
+          </div>}
+          
         </div>
         <div className="lobby_chat">
           <h1>Chat:</h1>

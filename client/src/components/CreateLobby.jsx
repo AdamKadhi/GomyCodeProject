@@ -3,10 +3,14 @@ import coin from "../Images/coin.png";
 import { useDispatch, useSelector } from "react-redux";
 import { addtournoi } from "../JS/tournoiSlice/tournoiSlice";
 import { useNavigate } from "react-router-dom";
+import { updateuser } from "../JS/userSlice/userSlice";
 
 const CreateLobby = ({setlien}) => {
   const dispatch = useDispatch();
   const user=useSelector((store)=>store.user?.user)
+  const [updatecoin, setupdatecoin] = useState({
+    coins:user?.coins
+  })
   const [addtour, setaddtour] = useState({
     gamename:"",
     mode:"",
@@ -21,6 +25,7 @@ const CreateLobby = ({setlien}) => {
   const handleRefresh = () => {
     window.location.reload();
   }
+  const navigate=useNavigate()
   // const [code, setCode] = useState("");
 
   // const handleButtonClick = () => {
@@ -60,7 +65,7 @@ const CreateLobby = ({setlien}) => {
             </span>
             
         </div>
-        <div className="create_box_middle"><label htmlFor="">Bet:</label><input type="number" name="" id=""  onChange={(e)=>setaddtour({...addtour,money:e.target.value})}/> <img src={coin} alt="" /></div>
+        <div className="create_box_middle"><label htmlFor="">Bet:</label><input type="number" name="" id=""  onChange={(e)=>(setaddtour({...addtour,money:e.target.value}),setupdatecoin({...updatecoin,coins:user?.coins-e.target.value}))}/> <img src={coin} alt="" /></div>
         <div className="create_box_bot">
             <label htmlFor="">Description</label>
             <textarea name="" id="" cols="3" rows="3" onChange={(e)=>setaddtour({...addtour,description:e.target.value})}></textarea>
@@ -73,7 +78,7 @@ const CreateLobby = ({setlien}) => {
           <div className="card_modal">
             <h1>Your Code: #{addtour.code}</h1>
             <div>
-            <button onClick={()=>(dispatch(addtournoi(addtour))&&handleRefresh())}>Confirm</button>
+            <button onClick={()=>(dispatch(addtournoi(addtour)),dispatch(updateuser({id:user?._id,user:updatecoin})),handleRefresh())}>Confirm</button>
             <button onClick={()=>setmodalcard(false)}>Cancel</button>
             </div></div>:null}
       </div>

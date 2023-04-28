@@ -11,7 +11,7 @@ const Card = ({key,el}) => {
   const navigate = useNavigate()
   const dispatch=useDispatch()
   const user=useSelector((store)=>store.user?.user)
-  const tournoi=useSelector((store)=>store.tournoi?.tournoi)
+  
   const [updateparticipant, setupdateparticipant] = useState({
     gamename:el?.gamename,
     mode:el?.mode,
@@ -23,6 +23,7 @@ const Card = ({key,el}) => {
   })
   
   const [modalcard, setmodalcard] = useState(false)
+  const [modalcard2, setmodalcard2] = useState(false)
   return (
     
       <div className="dash_card">
@@ -48,12 +49,13 @@ const Card = ({key,el}) => {
           </div>
           <div className="dash_card_bot">
           <span>{el?.mode}</span>
-          <button 
+          {user?.nickname!=el?.owner?<button 
             id="dash_card_bot_right" 
             onClick={() => (setupdateparticipant ({...updateparticipant, participant: user?.nickname,partpdp:user?.image}),setmodalcard(true))}
           >
             Join
-          </button>
+          </button>:<button onClick={()=>setmodalcard2(true)}>My Room</button>}
+          
           
           </div>
           <div>
@@ -66,6 +68,14 @@ const Card = ({key,el}) => {
             </div></div>:null}
           
           
+          </div>
+          <div>
+            {modalcard2?<div className="card_modal">
+              <h1>Your Room Code is: #{el?.code} </h1>
+              <div>
+                <button onClick={()=>setmodalcard2(false)}>Close</button>
+              </div>
+              </div>:null}
           </div>
           
       

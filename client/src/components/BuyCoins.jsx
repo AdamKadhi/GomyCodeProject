@@ -6,10 +6,11 @@ import { updateuser } from '../JS/userSlice/userSlice';
 const BuyCoins = ({setshow,index}) => {
   const dispatch=useDispatch()
   const user=useSelector((store)=>store.user?.user)
-  const [updatedu, setupdatedu] = useState({
-    coins:user?.coins,
-  })
   const coinet=[15,35,70,200,400,1700];
+  const [updatedu, setupdatedu] = useState({
+    coins:user?.coins+coinet[index],
+  })
+  
   const handleRefresh = () => {
     window.location.reload();
   }
@@ -21,7 +22,7 @@ const BuyCoins = ({setshow,index}) => {
         <div className="payment_forms">
         <div className="form_labelinput owner">
             <label htmlFor="">Card Holder</label>
-            <input type="text" name="" id="" onChange={()=>setupdatedu({...updatedu,coins:updatedu.coins+coinet[index]})} />
+            <input type="text" name="" id=""  />
         </div>
         <div className="form_labelinput cvv">
             <label htmlFor="">CVV</label>
